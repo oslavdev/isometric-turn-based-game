@@ -4,8 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
 //Theme
-const theme = {
-    planeColor: 0xff0000
+let theme = {
+    planeColor: 0x9b8ed7
 };
 
 /** 
@@ -14,13 +14,9 @@ const theme = {
  * 
  * 
  *  */
-// Debuggers switch
-const debugSwitch = {
-    wireframes: true
-}
-// Dat GUI 
-const gui = new dat.GUI()
 
+const gui = new dat.GUI()
+// dat.GUI.toggleHide();
 
 
 
@@ -39,20 +35,81 @@ const scene = new THREE.Scene()
  * 
  * */
 
-const plane_geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const plane_geometry = new THREE.BoxGeometry(3, 0.27, 3, 10, 10, 10)
 const plane_material = new THREE.MeshBasicMaterial({ 
-    color: theme.planeColor, 
-    wireframe: debugSwitch.wireframes 
+    color: theme.planeColor,
+    wireframe: true
 })
 const plane = new THREE.Mesh( plane_geometry, plane_material );
 
-gui
+//** Plane adjustment section */
+const ColorDebug = gui.addFolder("Color")
+ColorDebug
+    .addColor(theme, 'planeColor')
+    .onChange(() =>
+    {
+        plane_material.color.set(theme.planeColor)
+    })
+
+const MeshDebug = gui.addFolder("Mesh Size/Position")
+MeshDebug
+    .add(plane.scale, 'x')
+    .min(0)
+    .max(10)
+    .step(0.01)
+    .name('width')
+
+MeshDebug
+    .add(plane.scale, 'y')
+    .min(0)
+    .max(10)
+    .step(0.01)
+    .name('height')
+
+MeshDebug
+    .add(plane.scale, 'z')
+    .min(0)
+    .max(10)
+    .step(0.01)
+    .name('depth')
+
+MeshDebug
     .add(plane.position, 'y')
-    .min(- 3)
-    .max(3)
+    .min(- 5)
+    .max(5)
     .step(0.01)
     .name('vertical plane position')
 
+MeshDebug
+    .add(plane.position, 'x')
+    .min(- 5)
+    .max(5)
+    .step(0.01)
+    .name('horizontal plane position')
+
+
+MeshDebug
+    .add(plane.geometry.parameters, 'widthSegments')
+    .min(0)
+    .max(1000)
+    .step(1)
+    .name('number of width segments')
+
+MeshDebug    
+    .add(plane.geometry.parameters, 'heightSegments')
+    .min(0)
+    .max(1000)
+    .step(1)
+    .name('number of height segments')
+
+MeshDebug
+    .add(plane.geometry.parameters, 'depthSegments')
+    .min(0)
+    .max(1000)
+    .step(1)
+    .name('number of depth segments')
+
+gui.add(plane_material, 'wireframe')
 
 scene.add( plane );
 
