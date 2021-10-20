@@ -1,14 +1,28 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'dat.gui'
 
 //Theme
 const theme = {
     planeColor: 0xff0000
 };
 
-// Switch wireframes
-const isWireFrameOn = true;
+/** 
+ * 
+ * Debuggers
+ * 
+ * 
+ *  */
+// Debuggers switch
+const debugSwitch = {
+    wireframes: true
+}
+// Dat GUI 
+const gui = new dat.GUI()
+
+
+
 
 /**
  * Base
@@ -26,8 +40,20 @@ const scene = new THREE.Scene()
  * */
 
 const plane_geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const plane_material = new THREE.MeshBasicMaterial({ color: planeColor, wireframe: isWireFrameOn })
+const plane_material = new THREE.MeshBasicMaterial({ 
+    color: theme.planeColor, 
+    wireframe: debugSwitch.wireframes 
+})
 const plane = new THREE.Mesh( plane_geometry, plane_material );
+
+gui
+    .add(plane.position, 'y')
+    .min(- 3)
+    .max(3)
+    .step(0.01)
+    .name('vertical plane position')
+
+
 scene.add( plane );
 
 /**
