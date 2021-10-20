@@ -2,6 +2,14 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
+//Theme
+const theme = {
+    planeColor: 0xff0000
+};
+
+// Switch wireframes
+const isWireFrameOn = true;
+
 /**
  * Base
  */
@@ -11,6 +19,16 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+/** 
+ * 
+ * Plane - Battle Scene
+ * 
+ * */
+
+const plane_geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const plane_material = new THREE.MeshBasicMaterial({ color: planeColor, wireframe: isWireFrameOn })
+const plane = new THREE.Mesh( plane_geometry, plane_material );
+scene.add( plane );
 
 /**
  * Sizes
