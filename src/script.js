@@ -144,6 +144,29 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = 3
 scene.add(camera)
 
+// adjust camera position
+const cameraPosition = gui.addFolder("Camera")
+cameraPosition
+    .add(camera.position, "x")
+    .min(-20)
+    .max(20)
+    .step(0.1)
+    .name("X position")
+
+cameraPosition
+    .add(camera.position, "y")
+    .min(-20)
+    .max(20)
+    .step(0.1)
+    .name("Y position")
+
+cameraPosition
+    .add(camera.position, "z")
+    .min(-20)
+    .max(20)
+    .step(0.1)
+    .name("Z position")
+
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
