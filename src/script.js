@@ -166,10 +166,11 @@ directionalLight.shadow.normalBias = 0.05
 directionalLight.position.set(0.25, 3, - 2.25)
 scene.add(directionalLight)
 
-gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
-gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001).name('lightX')
-gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('lightY')
-gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('lightZ')
+const Light = gui.addFolder('Directional Light')
+Light.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
+Light.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001).name('lightX')
+Light.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('lightY')
+Light.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('lightZ')
 
 /** Grid */
 const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
