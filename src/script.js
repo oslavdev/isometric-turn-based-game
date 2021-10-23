@@ -31,7 +31,7 @@ const scene = new THREE.Scene()
  * 
  * */
 
-const plane_geometry = new THREE.BoxGeometry(3, 0.27, 3, 10, 10, 10)
+const plane_geometry = new THREE.BoxGeometry(30, 10, 30, 10, 10, 10)
 const plane_material = new THREE.MeshBasicMaterial({ 
     color: Theme.planeColor,
     wireframe: true
@@ -51,22 +51,22 @@ const MeshDebug = gui.addFolder("Mesh Size/Position")
 MeshDebug
     .add(plane.scale, 'x')
     .min(0)
-    .max(10)
-    .step(0.01)
+    .max(100)
+    .step(1)
     .name('width')
 
 MeshDebug
     .add(plane.scale, 'y')
     .min(0)
-    .max(10)
-    .step(0.01)
+    .max(100)
+    .step(1)
     .name('height')
 
 MeshDebug
     .add(plane.scale, 'z')
     .min(0)
-    .max(10)
-    .step(0.01)
+    .max(100)
+    .step(1)
     .name('depth')
 
 MeshDebug
