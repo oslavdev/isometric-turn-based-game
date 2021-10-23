@@ -14,6 +14,8 @@ import {Theme} from "./config/theme"
 const gui = new dat.GUI()
 // dat.GUI.toggleHide();
 
+
+
 /**
  * Base
  */
@@ -106,6 +108,16 @@ MeshDebug
 gui.add(plane_material, 'wireframe')
 
 scene.add( plane );
+
+
+/** Grid */
+const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
+const material = new THREE.MeshBasicMaterial( { wireframe: true, opacity: 0.5, transparent: true } );
+const grid = new THREE.Mesh( geometry, material );
+grid.rotation.order = 'YXZ';
+grid.rotation.y = - Math.PI / 2;
+grid.rotation.x = - Math.PI / 2;
+scene.add( grid );
 
 /**
  * Raycaster
