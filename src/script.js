@@ -185,9 +185,15 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 3
-scene.add(camera)
+// const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+// camera.position.z = 3
+// scene.add(camera)
+const aspect = window.innerWidth / window.innerHeight;
+const d = 20;
+const camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
+
+camera.position.set( 100, 100, 100 ); 
+camera.lookAt( scene.position );
 
 // adjust camera position
 const cameraPosition = gui.addFolder("Camera")
