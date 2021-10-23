@@ -12,8 +12,14 @@ import {Theme} from "./config/theme"
  *  */
 
 const gui = new dat.GUI()
-// dat.GUI.toggleHide();
+const debugObject = {}
 
+// dat.GUI.toggleHide(); // <----- uncomment to hide debugger
+
+/**
+ * Loaders
+ */
+ const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 
 /**
@@ -24,6 +30,45 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+
+/**
+ * Update all materials
+ */
+ const updateAllMaterials = () =>
+ {
+     scene.traverse((child) =>
+     {
+         if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
+         {
+             // child.material.envMap = environmentMap
+             child.material.envMapIntensity = debugObject.envMapIntensity
+             child.material.needsUpdate = true
+             child.castShadow = true
+             child.receiveShadow = true
+         }
+     })
+ }
+
+/**
+ * Environment map
+ */
+ const environmentMap = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg'
+])
+
+environmentMap.encoding = THREE.sRGBEncoding
+
+scene.background = environmentMap
+scene.environment = environmentMap
+
+debugObject.envMapIntensity = 5
+gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
 
 /** 
  * 
