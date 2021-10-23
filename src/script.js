@@ -114,6 +114,38 @@ gui.add(plane_material, 'wireframe')
 scene.add( plane );
 
 /**
+ * Raycaster
+ */
+ const raycaster = new THREE.Raycaster()
+ let currentIntersect = null
+ const rayDirection = new THREE.Vector3(10, 0, 0)
+ rayDirection.normalize()
+
+
+ /** Mouse */
+
+ const mouse = new THREE.Vector2()
+
+ window.addEventListener('mousemove', (event) =>
+{
+    mouse.x = event.clientX / sizes.width * 2 - 1
+    mouse.y = - (event.clientY / sizes.height) * 2 + 1
+})
+
+window.addEventListener('click', () =>
+{
+    if(currentIntersect)
+    {
+        switch(currentIntersect.object)
+        {
+            case plane:
+                console.log('click on plane')
+                break
+        }
+    }
+})
+
+/**
  * Sizes
  */
 const sizes = {
@@ -188,6 +220,30 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    raycaster.setFromCamera(mouse, camera)
+
+    const objectsToTest = [plane]
+    const intersects = raycaster.intersectObjects(objectsToTest)
+    
+    if(intersects.length)
+    {
+        if(!currentIntersect)
+        {
+            console.log('mouse enter')
+        }
+
+        currentIntersect = intersects[0]
+    }
+    else
+    {
+        if(currentIntersect)
+        {
+            console.log('mouse leave')
+        }
+        
+        currentIntersect = null
+    }
 
     // Update controls
     controls.update()
