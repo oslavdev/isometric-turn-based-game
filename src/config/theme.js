@@ -1,3 +1,3 @@
 export const Theme = {
-    planeColor: 0x9b8ed7
+    planeColor: 0x90909
 };
