@@ -254,22 +254,22 @@ camera.lookAt( scene.position );
 const cameraPosition = gui.addFolder("Camera")
 cameraPosition
     .add(camera.position, "x")
-    .min(-20)
-    .max(20)
+    .min(-120)
+    .max(120)
     .step(0.1)
     .name("X position")
 
 cameraPosition
     .add(camera.position, "y")
-    .min(-20)
-    .max(20)
+    .min(-210)
+    .max(120)
     .step(0.1)
     .name("Y position")
 
 cameraPosition
     .add(camera.position, "z")
-    .min(-20)
-    .max(20)
+    .min(-120)
+    .max(120)
     .step(0.1)
     .name("Z position")
 
