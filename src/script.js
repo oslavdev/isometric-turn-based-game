@@ -67,8 +67,8 @@ environmentMap.encoding = THREE.sRGBEncoding
 scene.background = environmentMap
 scene.environment = environmentMap
 
-debugObject.envMapIntensity = 5
-gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
+// debugObject.envMapIntensity = 5
+// gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
 
 /** 
  * 
@@ -82,6 +82,8 @@ const plane_material = new THREE.MeshBasicMaterial({
     wireframe: false
 })
 const plane = new THREE.Mesh( plane_geometry, plane_material );
+plane.castShadow = true
+plane.receiveShadow = true
 
 //** Plane adjustment section */
 const ColorDebug = gui.addFolder("Color")
