@@ -174,7 +174,7 @@ Light.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('ligh
 
 /** Grid */
 const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
-const material = new THREE.MeshBasicMaterial( { wireframe: true, opacity: 0.5, transparent: true } );
+const material = new THREE.MeshBasicMaterial( { color: Theme.gridColor, wireframe: true, opacity: 0.9, transparent: true } );
 const grid = new THREE.Mesh( geometry, material );
 grid.rotation.order = 'YXZ';
 grid.rotation.y = - Math.PI / 2;
