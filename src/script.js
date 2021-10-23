@@ -109,6 +109,13 @@ gui.add(plane_material, 'wireframe')
 
 scene.add( plane );
 
+/** Ambient */
+scene.add( new THREE.AmbientLight( 0x444444 ) );
+
+/** Point light */
+const light = new THREE.PointLight( 0xffffff, 0.8 );
+light.position.set( 0, 50, 50 );
+scene.add( light );
 
 /** Grid */
 const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
