@@ -2,11 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
-
-//Theme
-let theme = {
-    planeColor: 0x9b8ed7
-};
+import {Theme} from "./config/theme"
 
 /** 
  * 
@@ -17,8 +13,6 @@ let theme = {
 
 const gui = new dat.GUI()
 // dat.GUI.toggleHide();
-
-
 
 /**
  * Base
@@ -37,7 +31,7 @@ const scene = new THREE.Scene()
 
 const plane_geometry = new THREE.BoxGeometry(3, 0.27, 3, 10, 10, 10)
 const plane_material = new THREE.MeshBasicMaterial({ 
-    color: theme.planeColor,
+    color: Theme.planeColor,
     wireframe: true
 })
 const plane = new THREE.Mesh( plane_geometry, plane_material );
@@ -45,10 +39,10 @@ const plane = new THREE.Mesh( plane_geometry, plane_material );
 //** Plane adjustment section */
 const ColorDebug = gui.addFolder("Color")
 ColorDebug
-    .addColor(theme, 'planeColor')
+    .addColor(Theme, 'planeColor')
     .onChange(() =>
     {
-        plane_material.color.set(theme.planeColor)
+        plane_material.color.set(Theme.planeColor)
     })
 
 const MeshDebug = gui.addFolder("Mesh Size/Position")
