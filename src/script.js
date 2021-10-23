@@ -157,10 +157,19 @@ scene.add( plane );
 /** Ambient */
 scene.add( new THREE.AmbientLight( 0x444444 ) );
 
-/** Point light */
-const light = new THREE.PointLight( 0xffffff, 0.8 );
-light.position.set( 0, 50, 50 );
-scene.add( light );
+/** Directional light */
+const directionalLight = new THREE.DirectionalLight('#ffffff', 3)
+directionalLight.castShadow = true
+directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024, 1024)
+directionalLight.shadow.normalBias = 0.05
+directionalLight.position.set(0.25, 3, - 2.25)
+scene.add(directionalLight)
+
+gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
+gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001).name('lightX')
+gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('lightY')
+gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('lightZ')
 
 /** Grid */
 const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
