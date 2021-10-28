@@ -31,7 +31,7 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-
+const objects = [];
 /**
  * Update all materials
  */
@@ -64,8 +64,13 @@ const scene = new THREE.Scene()
 
 environmentMap.encoding = THREE.sRGBEncoding
 
-scene.background = environmentMap
-scene.environment = environmentMap
+// scene.background = environmentMap
+// scene.environment = environmentMap
+
+scene.background = new THREE.Color( 0xf0f0f0 );
+
+// const gridHelper = new THREE.GridHelper( 1000, 20 );
+// scene.add( gridHelper );
 
 // debugObject.envMapIntensity = 5
 // gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
@@ -76,7 +81,7 @@ scene.environment = environmentMap
  * 
  * */
 
-const plane_geometry = new THREE.BoxGeometry(30, 10, 30, 10, 10, 10)
+const plane_geometry = new THREE.BoxGeometry(1000, 30, 1000, 10, 10, 10)
 const plane_material = new THREE.MeshBasicMaterial({ 
     color: Theme.planeColor,
     wireframe: false
@@ -84,6 +89,9 @@ const plane_material = new THREE.MeshBasicMaterial({
 const plane = new THREE.Mesh( plane_geometry, plane_material );
 plane.castShadow = true
 plane.receiveShadow = true
+plane.position.y = -15
+
+objects.push(plane)
 
 //** Plane adjustment section */
 const ColorDebug = gui.addFolder("Color")
@@ -94,88 +102,37 @@ ColorDebug
         plane_material.color.set(Theme.planeColor)
     })
 
-const MeshDebug = gui.addFolder("Mesh Size/Position")
-MeshDebug
-    .add(plane.scale, 'x')
-    .min(0)
-    .max(100)
-    .step(1)
-    .name('width')
-
-MeshDebug
-    .add(plane.scale, 'y')
-    .min(0)
-    .max(100)
-    .step(1)
-    .name('height')
-
-MeshDebug
-    .add(plane.scale, 'z')
-    .min(0)
-    .max(100)
-    .step(1)
-    .name('depth')
-
-MeshDebug
-    .add(plane.position, 'y')
-    .min(- 5)
-    .max(5)
-    .step(0.01)
-    .name('vertical plane position')
-
-MeshDebug
-    .add(plane.position, 'x')
-    .min(- 5)
-    .max(5)
-    .step(0.01)
-    .name('horizontal plane position')
-
-
-MeshDebug
-    .add(plane.geometry.parameters, 'widthSegments')
-    .min(0)
-    .max(1000)
-    .step(1)
-    .name('number of width segments')
-
-MeshDebug    
-    .add(plane.geometry.parameters, 'heightSegments')
-    .min(0)
-    .max(1000)
-    .step(1)
-    .name('number of height segments')
-
-MeshDebug
-    .add(plane.geometry.parameters, 'depthSegments')
-    .min(0)
-    .max(1000)
-    .step(1)
-    .name('number of depth segments')
-
 gui.add(plane_material, 'wireframe')
 
 scene.add( plane );
 
-/** Ambient */
-scene.add( new THREE.AmbientLight( 0x444444 ) );
 
-/** Directional light */
-const directionalLight = new THREE.DirectionalLight('#ffffff', 3)
-directionalLight.castShadow = true
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.normalBias = 0.05
-directionalLight.position.set(0.25, 3, - 2.25)
-scene.add(directionalLight)
+const selector = new THREE.BoxGeometry( 100, 1, 100 );
+const selectorMaterial = new THREE.MeshBasicMaterial( { color: Theme.selectorColor, opacity: 0.5, transparent: true } );
+const selectorMesh = new THREE.Mesh( selector, selectorMaterial );
+selectorMesh.position.y = -50;
+scene.add( selectorMesh );
 
-const Light = gui.addFolder('Directional Light')
-Light.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
-Light.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001).name('lightX')
-Light.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('lightY')
-Light.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('lightZ')
+const SelectorDebug = gui.addFolder("Selector")
+SelectorDebug
+    .addColor(Theme, 'selectorColor')
+    .onChange(() =>
+    {
+        selectorMaterial.color.set(Theme.selectorColor)
+    })
+
+
+/** Light */
+
+const ambientLight = new THREE.AmbientLight( 0x606060 );
+scene.add( ambientLight );
+
+const directionalLight = new THREE.DirectionalLight( 0xffffff );
+directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
+scene.add( directionalLight );
 
 /** Grid */
-const geometry = new THREE.PlaneBufferGeometry( 100, 100, 10, 10 );
+const geometry = new THREE.PlaneBufferGeometry( 1000, 1000, 10, 10 );
 const material = new THREE.MeshBasicMaterial( { color: Theme.gridColor, wireframe: true, opacity: 0.9, transparent: true } );
 const grid = new THREE.Mesh( geometry, material );
 grid.rotation.order = 'YXZ';
@@ -187,33 +144,21 @@ scene.add( grid );
  * Raycaster
  */
  const raycaster = new THREE.Raycaster()
- let currentIntersect = null
  const rayDirection = new THREE.Vector3(10, 0, 0)
  rayDirection.normalize()
-
-
+ let isShiftDown = false;
+const pointer = new THREE.Vector2();
  /** Mouse */
 
  const mouse = new THREE.Vector2()
 
- window.addEventListener('mousemove', (event) =>
-{
-    mouse.x = event.clientX / sizes.width * 2 - 1
-    mouse.y = - (event.clientY / sizes.height) * 2 + 1
-})
+ document.addEventListener( 'pointermove', onPointerMove );
+ document.addEventListener( 'pointerdown', onPointerDown );
+ document.addEventListener( 'keydown', onDocumentKeyDown );
+ document.addEventListener( 'keyup', onDocumentKeyUp );
 
-window.addEventListener('click', () =>
-{
-    if(currentIntersect)
-    {
-        switch(currentIntersect.object)
-        {
-            case plane:
-                console.log('click on plane')
-                break
-        }
-    }
-})
+
+ window.addEventListener( 'resize', onWindowResize );
 
 /**
  * Sizes
@@ -241,39 +186,32 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
-// Base camera
-// const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-// camera.position.z = 3
-// scene.add(camera)
-const aspect = window.innerWidth / window.innerHeight;
-const d = 20;
-const camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
+const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+camera.position.set( 500, 800, 1300 );
+camera.lookAt( 0, 0, 0 );
 
-camera.position.set( 100, 100, 100 ); 
-camera.lookAt( scene.position );
+// // adjust camera position
+// const cameraPosition = gui.addFolder("Camera")
+// cameraPosition
+//     .add(camera.position, "x")
+//     .min(-120)
+//     .max(120)
+//     .step(0.1)
+//     .name("X position")
 
-// adjust camera position
-const cameraPosition = gui.addFolder("Camera")
-cameraPosition
-    .add(camera.position, "x")
-    .min(-120)
-    .max(120)
-    .step(0.1)
-    .name("X position")
+// cameraPosition
+//     .add(camera.position, "y")
+//     .min(-210)
+//     .max(120)
+//     .step(0.1)
+//     .name("Y position")
 
-cameraPosition
-    .add(camera.position, "y")
-    .min(-210)
-    .max(120)
-    .step(0.1)
-    .name("Y position")
-
-cameraPosition
-    .add(camera.position, "z")
-    .min(-120)
-    .max(120)
-    .step(0.1)
-    .name("Z position")
+// cameraPosition
+//     .add(camera.position, "z")
+//     .min(-120)
+//     .max(120)
+//     .step(0.1)
+//     .name("Z position")
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
@@ -311,6 +249,93 @@ renderer_gui
     })
 renderer_gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
 
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    render();
+
+}
+
+function onPointerMove( event ) {
+
+    pointer.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+    raycaster.setFromCamera( pointer, camera );
+
+    const intersects = raycaster.intersectObjects( objects, false );
+
+    if ( intersects.length > 0 ) {
+
+        const intersect = intersects[ 0 ];
+
+        selectorMesh.position.copy( intersect.point ).add( intersect.face.normal );
+        selectorMesh.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+
+    }
+
+    render();
+
+}
+
+function onPointerDown( event ) {
+
+    pointer.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+    raycaster.setFromCamera( pointer, camera );
+
+    const intersects = raycaster.intersectObjects( objects, false );
+
+    if ( intersects.length > 0 ) {
+
+        const intersect = intersects[ 0 ];
+
+
+        if ( isShiftDown ) {
+
+            if ( intersect.object !== plane ) {
+
+               
+
+            }
+
+
+        } else {
+
+           
+
+        }
+
+        render();
+
+    }
+
+}
+
+function onDocumentKeyDown( event ) {
+
+    switch ( event.keyCode ) {
+
+        case 16: isShiftDown = true; break;
+
+    }
+
+}
+
+function onDocumentKeyUp( event ) {
+
+    switch ( event.keyCode ) {
+
+        case 16: isShiftDown = false; break;
+
+    }
+
+}
+
+
 /**
  * Animate
  */
@@ -322,28 +347,6 @@ const tick = () =>
 
     raycaster.setFromCamera(mouse, camera)
 
-    const objectsToTest = [plane]
-    const intersects = raycaster.intersectObjects(objectsToTest)
-    
-    if(intersects.length)
-    {
-        if(!currentIntersect)
-        {
-            console.log('mouse enter')
-        }
-
-        currentIntersect = intersects[0]
-    }
-    else
-    {
-        if(currentIntersect)
-        {
-            console.log('mouse leave')
-        }
-        
-        currentIntersect = null
-    }
-
     // Update controls
     controls.update()
 
@@ -352,6 +355,12 @@ const tick = () =>
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
+}
+
+function render() {
+
+    renderer.render( scene, camera );
+
 }
 
 tick()
