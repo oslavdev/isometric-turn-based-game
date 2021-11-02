@@ -58,32 +58,6 @@ scene.background = new THREE.Color( 0xf0f0f0 );
  * 
  * */
 
-// const plane_size = {
-//     width: 100,
-//     height: 50,
-//     depth: 100,
-//     plygons:{
-//         x: 10,
-//         y: 10,
-//         z: 10
-//     }
-// }
-// const plane_geometry = new THREE.BoxGeometry(
-//     plane_size.width, 
-//     plane_size.height, 
-//     plane_size.depth, 
-//     plane_size.plygons.x, 
-//     plane_size.plygons.y, 
-//     plane_size.plygons.z
-// )
-// const plane_material = new THREE.MeshBasicMaterial({ 
-//     color: Theme.planeColor,
-//     wireframe: false
-// })
-// const plane = new THREE.Mesh( plane_geometry, plane_material );
-// plane.castShadow = true
-// plane.receiveShadow = true
-// plane.position.y = -15
 
 const random = getRandomIntInclusive(5, 10)
 const generatedPlane = planeGenerator(random, random);

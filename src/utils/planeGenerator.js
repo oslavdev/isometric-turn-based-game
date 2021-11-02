@@ -37,8 +37,6 @@ export function planeGenerator(
     const tiles = []
     const y = -15
 
-    console.log("Generating playground with size: " + rows + "rows" + columns + "columns")
-
     for(let r = 0; r < rows; r++){
         for(let c = 0; c < columns; c++){
             const tile = tileGenerator(tileSize)
