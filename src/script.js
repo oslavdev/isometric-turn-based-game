@@ -24,23 +24,27 @@ const debugObject = {}
 
 const _prefix = "Vol_42_1_" 
 const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
-const grassColorTexture = textureLoader.load(pathToGrassTexture("Base_Color"))
-const grassAmbientOcclusionTexture = textureLoader.load(pathToGrassTexture("Ambient_Occlusion"))
-const grassHeightTexture = textureLoader.load(pathToGrassTexture("Height"))
-const grassNormalTexture = textureLoader.load(pathToGrassTexture("Normal"))
-const grassRoughnessTexture = textureLoader.load(pathToGrassTexture("Roughness"))
+const grassTexture = {
+    grassColorTexture: textureLoader.load(pathToGrassTexture("Base_Color")),
+    grassAmbientOcclusionTexture: textureLoader.load(pathToGrassTexture("Ambient_Occlusion")),
+    grassHeightTexture: textureLoader.load(pathToGrassTexture("Height")),
+    grassNormalTexture: textureLoader.load(pathToGrassTexture("Normal")),
+    grassRoughnessTexture: textureLoader.load(pathToGrassTexture("Roughness")),
+}
 
-grassColorTexture.wrapS = THREE.RepeatWrapping
-grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
-grassNormalTexture.wrapS = THREE.RepeatWrapping
-grassRoughnessTexture.wrapS = THREE.RepeatWrapping
-grassHeightTexture.wrapS = THREE.RepeatWrapping
+console.log(grassTexture)
 
-grassColorTexture.wrapT = THREE.RepeatWrapping
-grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
-grassNormalTexture.wrapT = THREE.RepeatWrapping
-grassRoughnessTexture.wrapT = THREE.RepeatWrapping
-grassHeightTexture.wrapT = THREE.RepeatWrapping
+grassTexture.grassColorTexture.wrapS = THREE.RepeatWrapping
+grassTexture.grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
+grassTexture.grassNormalTexture.wrapS = THREE.RepeatWrapping
+grassTexture.grassRoughnessTexture.wrapS = THREE.RepeatWrapping
+grassTexture.grassHeightTexture.wrapS = THREE.RepeatWrapping
+
+grassTexture.grassColorTexture.wrapT = THREE.RepeatWrapping
+grassTexture.grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
+grassTexture.grassNormalTexture.wrapT = THREE.RepeatWrapping
+grassTexture.grassRoughnessTexture.wrapT = THREE.RepeatWrapping
+grassTexture.grassHeightTexture.wrapT = THREE.RepeatWrapping
 
 /**
  * Base
