@@ -51,7 +51,15 @@ let objects = [];
      })
  }
 
-scene.background = new THREE.Color( 0xf0f0f0 );
+scene.background = new THREE.Color( Theme.backgroundColor );
+
+const ColorDebug = gui.addFolder("Background Color")
+ColorDebug
+    .addColor(Theme, 'backgroundColor')
+    .onChange(() =>
+    {
+        scene.background.set(new THREE.Color( Theme.backgroundColor))
+    })
 /** 
  * 
  * Plane - Battle Scene
@@ -64,16 +72,14 @@ const generatedPlane = planeGenerator(random, random);
 
 objects = [...generatedPlane]
 
-//** Plane adjustment section */
-// const ColorDebug = gui.addFolder("Color")
-// ColorDebug
-//     .addColor(Theme, 'planeColor')
-//     .onChange(() =>
-//     {
-//         plane_material.color.set(Theme.planeColor)
-//     })
-
-// gui.add(plane_material, 'wireframe')
+/** Grid */
+// const geometry = new THREE.PlaneBufferGeometry( 1000, 1000, 10, 10 );
+// const material = new THREE.MeshBasicMaterial( { color: Theme.gridColor, wireframe: true, opacity: 0.9, transparent: true } );
+// const grid = new THREE.Mesh( geometry, material );
+// grid.rotation.order = 'YXZ';
+// grid.rotation.y = - Math.PI / 2;
+// grid.rotation.x = - Math.PI / 2;
+// scene.add( grid );
 
 generatedPlane.forEach((tile) => scene.add( tile ))
 
@@ -101,14 +107,6 @@ const directionalLight = new THREE.DirectionalLight( 0xffffff );
 directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
 scene.add( directionalLight );
 
-/** Grid */
-// const geometry = new THREE.PlaneBufferGeometry( 1000, 1000, 10, 10 );
-// const material = new THREE.MeshBasicMaterial( { color: Theme.gridColor, wireframe: true, opacity: 0.9, transparent: true } );
-// const grid = new THREE.Mesh( geometry, material );
-// grid.rotation.order = 'YXZ';
-// grid.rotation.y = - Math.PI / 2;
-// grid.rotation.x = - Math.PI / 2;
-// scene.add( grid );
 
 /**
  * Raycaster
