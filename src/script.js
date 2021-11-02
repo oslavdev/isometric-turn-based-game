@@ -20,8 +20,15 @@ const debugObject = {}
 /**
  * Loaders
  */
- const cubeTextureLoader = new THREE.CubeTextureLoader()
+ const textureLoader = new THREE.TextureLoader()
 
+const _prefix = "Vol_42_1_" 
+const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
+const grassTexture = textureLoader.load(pathToGrassTexture("Base_Color"))
+const grassAmbientOcclusionTexture = textureLoader.load(pathToGrassTexture("Ambient_Occlusion"))
+const grassHeightTexture = textureLoader.load(pathToGrassTexture("Height"))
+const grassNormalTexture = textureLoader.load(pathToGrassTexture("Normal"))
+const grassRoughnessTexture = textureLoader.load(pathToGrassTexture("Roughness"))
 
 /**
  * Base
