@@ -32,7 +32,6 @@ const grassTexture = {
     grassRoughnessTexture: textureLoader.load(pathToGrassTexture("Roughness")),
 }
 
-console.log(grassTexture)
 
 grassTexture.grassColorTexture.wrapS = THREE.RepeatWrapping
 grassTexture.grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
