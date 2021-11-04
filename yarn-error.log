@@ -1,0 +1,65 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add three-sky
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  14.17.6
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://herogaming-425657883712.d.codeartifact.eu-central-1.amazonaws.com/npm/frontend/@babel%2fcore: Unauthenticated: request used expired credentials. Please renew your credentials.
+      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66992:18)
+      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140763:22)
+      at Request.emit (events.js:400:28)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141735:10)
+      at Request.emit (events.js:400:28)
+      at Gunzip.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141657:12)
+      at Object.onceWrapper (events.js:519:28)
+      at Gunzip.emit (events.js:400:28)
+      at endReadableNT (internal/streams/readable.js:1317:12)
+      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+
+npm manifest: 
+  {
+    "author": "Oslav",
+    "repository": "#",
+    "license": "UNLICENSED",
+    "scripts": {
+      "build": "webpack --config ./bundler/webpack.prod.js",
+      "dev": "webpack serve --config ./bundler/webpack.dev.js"
+    },
+    "dependencies": {
+      "@babel/core": "^7.14.6",
+      "@babel/preset-env": "^7.14.7",
+      "babel-loader": "^8.2.2",
+      "clean-webpack-plugin": "^3.0.0",
+      "copy-webpack-plugin": "^9.0.1",
+      "css-loader": "^5.2.6",
+      "dat.gui": "^0.7.7",
+      "file-loader": "^6.2.0",
+      "html-loader": "^2.1.2",
+      "html-webpack-plugin": "^5.3.2",
+      "mini-css-extract-plugin": "^2.0.0",
+      "portfinder-sync": "0.0.2",
+      "raw-loader": "^4.0.2",
+      "style-loader": "^3.0.0",
+      "three": "^0.130.0",
+      "webpack": "^5.41.1",
+      "webpack-cli": "^4.7.2",
+      "webpack-dev-server": "^3.11.2",
+      "webpack-merge": "^5.8.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

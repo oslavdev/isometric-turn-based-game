@@ -1,10 +1,8 @@
 import * as THREE from 'three'
-import * as Configuration from "../config"
-import {Theme} from "../config/theme"
-
 
 /** Generate a single tile */
-function tileGenerator(tileSize){
+function tileGenerator(tileSize, texture){
+    
     const tile_geometry = new THREE.BoxGeometry(
         tileSize.width, 
         tileSize.height, 
@@ -13,25 +11,30 @@ function tileGenerator(tileSize){
         tileSize.plygons.y, 
         tileSize.plygons.z
     )
-    const tile_material = new THREE.MeshBasicMaterial({ 
-        color: Theme.planeColor
+    const tile_material = new THREE.MeshStandardMaterial({
+        map: texture.grassColorTexture,
+        aoMap: texture.grassAmbientOcclusionTexture,
+        normalMap: texture.grassNormalTexture,
+        roughnessMap: texture.grassRoughnessTexture
     })
     const tile = new THREE.Mesh( tile_geometry, tile_material );
     tile.castShadow = true
     tile.receiveShadow = true
+    tile.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(tile.geometry.attributes.uv.array, 2))
 
     return tile;
 }
 
-/** Generate playground, by default it is 5 rows on 5 columns  
+/**
+ *  Generate playground of a random size
  * 
- * TODO make the size of the playground random
  * 
 */
 export function planeGenerator(
-    rows = 5,
-    columns = 5,
-    tileSize = Configuration.tileSize
+    rows,
+    columns,
+    tileSize,
+    options
 ){
 
     const tiles = []
@@ -39,7 +42,7 @@ export function planeGenerator(
 
     for(let r = 0; r < rows; r++){
         for(let c = 0; c < columns; c++){
-            const tile = tileGenerator(tileSize)
+            const tile = tileGenerator(tileSize, options.texture)
             tile.position.y = y
             tile.position.x = r * tileSize.width
             tile.position.z = c * tileSize.depth
@@ -54,3 +57,4 @@ export function planeGenerator(
 
     return tiles;
 }
+

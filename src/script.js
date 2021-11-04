@@ -5,6 +5,8 @@ import * as dat from 'dat.gui'
 import {Theme} from "./config/theme"
 import { planeGenerator } from './utils/planeGenerator'
 import {getRandomIntInclusive} from './utils/randomNumberGenerator'
+import * as Configuration from "./config"
+
 /** 
  * 
  * Debuggers
@@ -17,10 +19,7 @@ const debugObject = {}
 
 // dat.GUI.toggleHide(); // <----- uncomment to hide debugger
 
-/**
- * Loaders
- */
- const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader()
 
 const _prefix = "Vol_42_1_" 
 const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
@@ -90,7 +89,9 @@ ColorDebug
 
 
 const random = getRandomIntInclusive(5, 10)
-const generatedPlane = planeGenerator(random, random);
+const generatedPlane = planeGenerator(random, random, Configuration.tileSize, {
+    texture: grassTexture
+});
 
 objects = [...generatedPlane]
 
