@@ -17,6 +17,8 @@ import * as Configuration from "./config"
 const gui = new dat.GUI()
 const debugObject = {}
 
+
+
 // dat.GUI.toggleHide(); // <----- uncomment to hide debugger
 
 const textureLoader = new THREE.TextureLoader()
@@ -53,6 +55,8 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 let objects = [];
+
+
 
 /**
  * Update all materials
