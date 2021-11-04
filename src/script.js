@@ -21,7 +21,14 @@ const debugObject = {}
 
 // dat.GUI.toggleHide(); // <----- uncomment to hide debugger
 
+
+/** Texture loader
+ * 
+ * TODO create separate class to load textures
+ * 
+ */
 const textureLoader = new THREE.TextureLoader()
+const textures = [];
 
 const _prefix = "Vol_42_1_" 
 const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
@@ -46,6 +53,12 @@ grassTexture.grassNormalTexture.wrapT = THREE.RepeatWrapping
 grassTexture.grassRoughnessTexture.wrapT = THREE.RepeatWrapping
 grassTexture.grassHeightTexture.wrapT = THREE.RepeatWrapping
 
+textures.push(grassTexture)
+
+/** Load Alternative Grass Texture */
+
+/** Load Ruines Texture */
+
 /**
  * Base
  */
@@ -55,7 +68,6 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 let objects = [];
-
 
 
 /**
@@ -94,7 +106,7 @@ ColorDebug
 
 const random = getRandomIntInclusive(5, 10)
 const generatedPlane = planeGenerator(random, random, Configuration.tileSize, {
-    texture: grassTexture
+    textures: textures
 });
 
 objects = [...generatedPlane]

@@ -1,8 +1,16 @@
 import * as THREE from 'three'
+import {getRandomIntInclusive} from '../utils/randomNumberGenerator'
 
 /** Generate a single tile */
-function tileGenerator(tileSize, texture){
-    
+function tileGenerator(tileSize, textures){
+
+    const numberOfAvailableTextures = textures.length;
+    const getARandomTextureForThisIteration  =  getRandomIntInclusive(0, numberOfAvailableTextures-1)
+
+    console.log(getARandomTextureForThisIteration)
+
+    const texture = textures[getARandomTextureForThisIteration]
+
     const tile_geometry = new THREE.BoxGeometry(
         tileSize.width, 
         tileSize.height, 
@@ -42,7 +50,7 @@ export function planeGenerator(
 
     for(let r = 0; r < rows; r++){
         for(let c = 0; c < columns; c++){
-            const tile = tileGenerator(tileSize, options.texture)
+            const tile = tileGenerator(tileSize, options.textures)
             tile.position.y = y
             tile.position.x = r * tileSize.width
             tile.position.z = c * tileSize.depth
