@@ -7,8 +7,6 @@ function tileGenerator(tileSize, textures){
     const numberOfAvailableTextures = textures.length;
     const getARandomTextureForThisIteration  =  getRandomIntInclusive(0, numberOfAvailableTextures-1)
 
-    console.log(getARandomTextureForThisIteration)
-
     const texture = textures[getARandomTextureForThisIteration]
 
     const tile_geometry = new THREE.BoxGeometry(
