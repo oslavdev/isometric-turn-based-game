@@ -6,6 +6,7 @@ import {Theme} from "./config/theme"
 import { planeGenerator } from './utils/planeGenerator'
 import {getRandomIntInclusive} from './utils/randomNumberGenerator'
 import * as Configuration from "./config"
+import {loadTextureFromPath} from "./loaders/textureLoader"
 
 /** 
  * 
@@ -32,26 +33,8 @@ const textures = [];
 
 const _prefix = "Vol_42_1_" 
 const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
-const grassTexture = {
-    grassColorTexture: textureLoader.load(pathToGrassTexture("Base_Color")),
-    grassAmbientOcclusionTexture: textureLoader.load(pathToGrassTexture("Ambient_Occlusion")),
-    grassHeightTexture: textureLoader.load(pathToGrassTexture("Height")),
-    grassNormalTexture: textureLoader.load(pathToGrassTexture("Normal")),
-    grassRoughnessTexture: textureLoader.load(pathToGrassTexture("Roughness")),
-}
+const grassTexture = loadTextureFromPath(pathToGrassTexture)
 
-
-grassTexture.grassColorTexture.wrapS = THREE.RepeatWrapping
-grassTexture.grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
-grassTexture.grassNormalTexture.wrapS = THREE.RepeatWrapping
-grassTexture.grassRoughnessTexture.wrapS = THREE.RepeatWrapping
-grassTexture.grassHeightTexture.wrapS = THREE.RepeatWrapping
-
-grassTexture.grassColorTexture.wrapT = THREE.RepeatWrapping
-grassTexture.grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
-grassTexture.grassNormalTexture.wrapT = THREE.RepeatWrapping
-grassTexture.grassRoughnessTexture.wrapT = THREE.RepeatWrapping
-grassTexture.grassHeightTexture.wrapT = THREE.RepeatWrapping
 
 textures.push(grassTexture)
 

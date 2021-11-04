@@ -18,10 +18,10 @@ function tileGenerator(tileSize, textures){
         tileSize.plygons.z
     )
     const tile_material = new THREE.MeshStandardMaterial({
-        map: texture.grassColorTexture,
-        aoMap: texture.grassAmbientOcclusionTexture,
-        normalMap: texture.grassNormalTexture,
-        roughnessMap: texture.grassRoughnessTexture
+        map: texture.colorTexture,
+        aoMap: texture.ambientOcclusionTexture,
+        normalMap: texture.normalTexture,
+        roughnessMap: texture.roughnessTexture
     })
     const tile = new THREE.Mesh( tile_geometry, tile_material );
     tile.castShadow = true
