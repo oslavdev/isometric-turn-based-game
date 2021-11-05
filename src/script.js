@@ -1,5 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
+import { gsap } from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import {Theme} from "./config/theme"
@@ -7,6 +8,9 @@ import { planeGenerator } from './utils/planeGenerator'
 import {getRandomIntInclusive} from './utils/randomNumberGenerator'
 import * as Configuration from "./config"
 import {loadTextureFromPath} from "./loaders/textureLoader"
+
+
+
 
 /** 
  * 
@@ -25,20 +29,25 @@ const debugObject = {}
 
 /** Texture loader
  * 
- * TODO create separate class to load textures
  * 
  */
-const textureLoader = new THREE.TextureLoader()
+
 const textures = [];
 
-const _prefix = "Vol_42_1_" 
-const pathToGrassTexture = (texture) => `/textures/grass/${_prefix}${texture}.png` 
-const grassTexture = loadTextureFromPath(pathToGrassTexture)
+/** Mossy Clif */
+// const pathToMossyCliffTexture = (texture) => `/textures/mossy_cliff/mossy_clif_${texture}.png` 
+// const MossyCliffTexture = loadTextureFromPath(pathToMossyCliffTexture)
+// textures.push(MossyCliffTexture)
 
+/** Mossy Wet Grass */
+// const pathToMossyGrassTexture = (texture) => `/textures/mossy_wet_grass/MossyWetGrass__${texture}.png` 
+// const muddyGrassTexture = loadTextureFromPath(pathToMossyGrassTexture)
+// textures.push(muddyGrassTexture)
 
-textures.push(grassTexture)
-
-/** Load Alternative Grass Texture */
+/**  Black Hexagon texture   */
+const pathToBlackHexagonGrassTexture = (texture) => `/textures/black_hexagon_tiles/${texture}.png` 
+const blackHexagonTexture = loadTextureFromPath(pathToBlackHexagonGrassTexture)
+textures.push(blackHexagonTexture)
 
 /** Load Ruines Texture */
 
@@ -89,7 +98,7 @@ ColorDebug
 
 const random = getRandomIntInclusive(5, 10)
 const generatedPlane = planeGenerator(random, random, Configuration.tileSize, {
-    textures: textures
+    textures
 });
 
 objects = [...generatedPlane]

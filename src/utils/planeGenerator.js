@@ -4,6 +4,8 @@ import {getRandomIntInclusive} from '../utils/randomNumberGenerator'
 /** Generate a single tile */
 function tileGenerator(tileSize, textures){
 
+    // TODO create more complex shape for tiles
+
     const numberOfAvailableTextures = textures.length;
     const getARandomTextureForThisIteration  =  getRandomIntInclusive(0, numberOfAvailableTextures-1)
 
